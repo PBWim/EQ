@@ -6,10 +6,38 @@
     <RootNamespace>EQ_Sample</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Scripts\EQFilter\App.ts" />
+    <None Remove="Scripts\EQFilter\eqfilterCustom.ts" />
+    <None Remove="Scripts\home.ts" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Korzh.EasyQuery.AspNetCore" Version="5.3.8" />
+    <PackageReference Include="Korzh.EasyQuery.EntityFrameworkCore.Relational" Version="5.3.8" />
+    <PackageReference Include="Korzh.EasyQuery.EntityFrameworkCore.Identity" Version="5.3.8" />
+    <PackageReference Include="Korzh.EasyQuery.Linq" Version="5.3.8" />
+    <PackageReference Include="Korzh.EasyQuery.MsSqlGate" Version="5.3.8" />
+    <PackageReference Include="Korzh.EasyQuery.RazorUi" Version="5.3.8" />
+    <PackageReference Include="Korzh.EasyQuery.DataExport" Version="5.3.8" />
+    <PackageReference Include="Korzh.DbUtils.Import" Version="1.4.1" />
+    <PackageReference Include="Korzh.DbUtils.SqlServer" Version="1.4.1" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.9.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\App.ts" />
+    <TypeScriptCompile Include="Scripts\EQFilter\eqfilterCustom.ts" />
+    <TypeScriptCompile Include="Scripts\home.ts" />
   </ItemGroup>
 
 </Project>

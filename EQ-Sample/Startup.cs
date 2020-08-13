@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace EQ_Sample
+﻿namespace EQ_Sample
 {
+    using EQ_Sample.Data;
+    using EQ_Sample.Helpers;
+    using Korzh.EasyQuery;
+    using Korzh.EasyQuery.Services;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -31,6 +31,14 @@ namespace EQ_Sample
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("EqDemoDb")));
+
+            Korzh.EasyQuery.AspNetCore.License.Key = this.Configuration["KorzhEasyQueryKey"];
+
+            services.AddEasyQuery().UseLinqManager<EqManager<IEntity>>();
+            services.AddTransient(typeof(EasyQueryManagerLinq<>), typeof(EqManager<>));
+
+            services.AddEasyQuery();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -53,12 +61,26 @@ namespace EQ_Sample
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseEasyQuery(options => {
+                options.UseDefaultAuthProvider();
+                options.SetFormats(new QueryFormats
+                {
+                    UseTimezoneOffset = true
+                });
+                options.UseModelTuner(model =>
+                {
+                    model.SortEntities();
+                });
+            });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.EnsureDbInitialized(Configuration, env);
         }
     }
 }

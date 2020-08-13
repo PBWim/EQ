@@ -1,8 +1,26 @@
-﻿@{
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@using Korzh.EasyQuery.AspNetCore
+@{
     ViewData["Title"] = "Home Page";
+    var appPathBase = Configuration["appPathBase"] ?? "";
+}
+
+@section Styles  {
+    <link rel="stylesheet" href="https://cdn.korzh.com/eq/6.0.14/eq.core.min.css">
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<div class="container">
+    <h4>Orders</h4>
+    @Html.FilterBar()
+
+    <div id="ResultPanel"></div>
+</div>
+
+@section Scripts {
+    <script src="~/js/home.js"></script>
+}

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "types": [ "jquery" ],
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "target": "es5"
+  },
+  "compileOnSave": true,
+  "exclude": [
+    "wwwroot",
+    "bin",
+    "node_modules"
+  ]
+}
